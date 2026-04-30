@@ -1,6 +1,6 @@
-package com.example.edutech.data // 👈 importante que esté en data
+package com.example.edutech.data //  importante que esté en data
 
-data class Course( // 👈 data class (esto es clave)
+data class Course( //  data class (esto es clave)
     val id: Int,
     val title: String,
     val instructor: String,
