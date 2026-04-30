@@ -7,7 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -36,6 +36,7 @@ fun ProfileScreen(
 ) {
     // Colores de la paleta
     val primaryBlue = Color(0xFF1565C0)
+    val secondaryBlue = Color(0xFF1976D2)
     val accentOrange = Color(0xFFFF6F00)
     val lightGray = Color(0xFFF5F5F5)
 
@@ -50,10 +51,9 @@ fun ProfileScreen(
                     )
                 },
                 navigationIcon = {
-                    // Botón flecha atrás ←
                     IconButton(onClick = onBack) {
                         Icon(
-                            imageVector = Icons.Default.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Regresar",
                             tint = Color.White
                         )
@@ -63,25 +63,25 @@ fun ProfileScreen(
                     containerColor = primaryBlue
                 )
             )
-        }
+        },
+        containerColor = lightGray
     ) { paddingValues ->
 
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .background(lightGray),
+                .padding(paddingValues),
             verticalArrangement = Arrangement.spacedBy(0.dp)
         ) {
 
-            // ── Header del perfil ──
+            // ── Header del perfil con gradiente ──
             item {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(
                             Brush.verticalGradient(
-                                colors = listOf(primaryBlue, Color(0xFF1976D2))
+                                colors = listOf(primaryBlue, secondaryBlue)
                             )
                         )
                         .padding(28.dp),
@@ -122,9 +122,9 @@ fun ProfileScreen(
                             color = Color.White.copy(alpha = 0.8f)
                         )
 
-                        Spacer(modifier = Modifier.height(20.dp))
+                        Spacer(modifier = Modifier.height(24.dp))
 
-                        // Estadísticas rápidas
+                        // Estadísticas rápidas en fila
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceEvenly
@@ -139,60 +139,27 @@ fun ProfileScreen(
 
             // ── Sección: Mis Cursos ──
             item {
-                Spacer(modifier = Modifier.height(20.dp))
-                Row(
-                    modifier = Modifier.padding(horizontal = 20.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "📚 Mis Cursos Inscritos",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF1A1A2E)
-                    )
-                }
+                Spacer(modifier = Modifier.height(24.dp))
+                Text(
+                    text = "📚 Mis Cursos Inscritos",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF1A1A2E),
+                    modifier = Modifier.padding(horizontal = 20.dp)
+                )
                 Spacer(modifier = Modifier.height(12.dp))
             }
 
-            // Lista de cursos inscritos
+            // Lista de cursos inscritos o estado vacío
             if (enrolledCourses.isEmpty()) {
-                // Estado vacío
                 item {
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 20.dp),
-                        shape = RoundedCornerShape(16.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color.White)
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(32.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(text = "📭", fontSize = 48.sp)
-                            Spacer(modifier = Modifier.height(12.dp))
-                            Text(
-                                text = "Aún no tienes cursos inscritos",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                color = Color.Gray
-                            )
-                            Text(
-                                text = "Explora el catálogo y empieza a aprender",
-                                fontSize = 13.sp,
-                                color = Color.LightGray
-                            )
-                        }
-                    }
+                    EmptyState()
                 }
             } else {
                 items(enrolledCourses) { course ->
                     EnrolledCourseCard(
                         course = course,
-                        accentOrange = accentOrange,
-                        primaryBlue = primaryBlue
+                        accentOrange = accentOrange
                     )
                 }
             }
@@ -202,13 +169,12 @@ fun ProfileScreen(
     }
 }
 
-// ── Componente: estadística del header ──
 @Composable
 fun StatItem(value: String, label: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             text = value,
-            fontSize = 22.sp,
+            fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             color = Color.White
         )
@@ -220,27 +186,24 @@ fun StatItem(value: String, label: String) {
     }
 }
 
-// ── Componente: tarjeta de curso inscrito con barra de progreso ──
 @Composable
 fun EnrolledCourseCard(
     course: Course,
-    accentOrange: Color,
-    primaryBlue: Color
+    accentOrange: Color
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 6.dp),
+            .padding(horizontal = 20.dp, vertical = 8.dp),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            // Fila superior: título + badge nivel
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -248,45 +211,51 @@ fun EnrolledCourseCard(
             ) {
                 Text(
                     text = course.title,
-                    fontSize = 15.sp,
+                    fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF1A1A2E),
                     modifier = Modifier.weight(1f)
                 )
+                
+                val levelColor = when (course.level) {
+                    "Básico" -> Color(0xFF4CAF50)
+                    "Intermedio" -> Color(0xFFFF9800)
+                    "Avanzado" -> Color(0xFFF44336)
+                    else -> Color.Gray
+                }
+                
                 Surface(
                     shape = RoundedCornerShape(8.dp),
-                    color = when (course.level) {
-                        "Básico" -> Color(0xFF4CAF50)
-                        "Intermedio" -> Color(0xFFFF9800)
-                        "Avanzado" -> Color(0xFFF44336)
-                        else -> Color.Gray
-                    }
+                    color = levelColor.copy(alpha = 0.1f)
                 ) {
                     Text(
                         text = course.level,
-                        color = Color.White,
+                        color = levelColor,
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                     )
                 }
             }
 
             Spacer(modifier = Modifier.height(4.dp))
 
-            // Instructor
             Text(
                 text = "👤 ${course.instructor}  •  ⏱ ${course.duration}",
                 fontSize = 12.sp,
                 color = Color.Gray
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-            // Texto de progreso
+            // Barra de progreso y porcentaje
+            val isCompleted = (course.progress ?: 0) >= 80
+            val progressColor = if (isCompleted) Color(0xFF4CAF50) else accentOrange
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = "Progreso",
@@ -298,33 +267,63 @@ fun EnrolledCourseCard(
                     text = "${course.progress}%",
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
-                    color = if (course.progress >= 80) Color(0xFF4CAF50) else accentOrange
+                    color = progressColor
                 )
             }
 
-            Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
-            // Barra de progreso simulada
             LinearProgressIndicator(
-                progress = course.progress / 100f,
+                progress = { (course.progress ?: 0) / 100f },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(10.dp)
+                    .height(8.dp)
                     .clip(RoundedCornerShape(8.dp)),
-                color = if (course.progress >= 80) Color(0xFF4CAF50) else accentOrange,
+                color = progressColor,
                 trackColor = Color(0xFFE0E0E0)
             )
 
-            // Mensaje según progreso
-            if (course.progress >= 80) {
-                Spacer(modifier = Modifier.height(6.dp))
+            if (isCompleted) {
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "🏆 ¡Casi terminas! Sigue así",
                     fontSize = 12.sp,
                     color = Color(0xFF4CAF50),
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.SemiBold
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun EmptyState() {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(32.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = "📭", fontSize = 48.sp)
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                text = "Aún no tienes cursos inscritos",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = Color.Gray
+            )
+            Text(
+                text = "Explora el catálogo y empieza a aprender",
+                fontSize = 13.sp,
+                color = Color.LightGray
+            )
         }
     }
 }
