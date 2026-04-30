@@ -8,8 +8,8 @@ import androidx.compose.ui.unit.dp // Medidas
 
 @Composable
 fun HomeScreen(
-    onCoursesClick: () -> Unit, // 👉 Función que envía a Cursos
-    onProfileClick: () -> Unit // 👉 Función que envía a Perfil
+    onCoursesClick: () -> Unit, //  Función que envía a Cursos
+    onProfileClick: () -> Unit //  Función que envía a Perfil
 ) {
 
     Column(
@@ -19,7 +19,7 @@ fun HomeScreen(
     ) {
 
         Text(
-            text = "Hola 👋", // 👉 Saludo
+            text = "Hola ", //  Saludo
             style = MaterialTheme.typography.headlineMedium
         )
 
@@ -28,7 +28,7 @@ fun HomeScreen(
         Button(
             onClick = {
                 onCoursesClick()
-                // 👉 ENVÍA de Home → Cursos
+                //  ENVÍA de Home → Cursos
             },
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -40,7 +40,7 @@ fun HomeScreen(
         Button(
             onClick = {
                 onProfileClick()
-                // 👉 ENVÍA de Home → Perfil
+                //  ENVÍA de Home → Perfil
             },
             modifier = Modifier.fillMaxWidth()
         ) {

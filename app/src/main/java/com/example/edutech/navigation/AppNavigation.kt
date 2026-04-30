@@ -10,51 +10,51 @@ import com.example.edutech.screens.* // Importa pantallas
 fun AppNavigation() { // Función principal que controla la navegación
 
     val navController = rememberNavController()
-    // 👉 Crea el controlador que decide a qué pantalla ir
+    //  Crea el controlador que decide a qué pantalla ir
 
     NavHost(
         navController = navController,
         startDestination = Routes.LOGIN
-        // 👉 Primera pantalla: Login
+        //  Primera pantalla: Login
     ) {
 
         composable(Routes.LOGIN) {
-            // 👉 Define la pantalla Login
+            //  Define la pantalla Login
 
             LoginScreen(
                 onLogin = {
                     navController.navigate(Routes.HOME)
-                    // 👉 ENVÍA al usuario de Login → Home
+                    //  ENVÍA al usuario de Login → Home
                 }
             )
         }
 
         composable(Routes.HOME) {
-            // 👉 Define pantalla Home
+            //  Define pantalla Home
 
             HomeScreen(
                 onCoursesClick = {
                     navController.navigate(Routes.COURSES)
-                    // 👉 ENVÍA de Home → Cursos
+                    //  ENVÍA de Home → Cursos
                 },
                 onProfileClick = {
                     navController.navigate(Routes.PROFILE)
-                    // 👉 ENVÍA de Home → Perfil
+                    //  ENVÍA de Home → Perfil
                 }
             )
         }
 
         composable(Routes.COURSES) {
-            // 👉 Pantalla lista de cursos
+            // Pantalla lista de cursos
 
             CoursesScreen(
                 onBack = {
                     navController.popBackStack()
-                    // 👉 REGRESA a pantalla anterior (Home)
+                    //  REGRESA a pantalla anterior (Home)
                 },
                 onCourseClick = { courseId ->
                     navController.navigate(Routes.detailRoute(courseId))
-                    // 👉 ENVÍA el ID del curso a Detalle
+                    //  ENVÍA el ID del curso a Detalle
                 }
             )
         }
@@ -64,7 +64,7 @@ fun AppNavigation() { // Función principal que controla la navegación
             arguments = listOf(
                 navArgument("courseId") {
                     type = NavType.IntType
-                    // 👉 Define que el parámetro será entero
+                    //  Define que el parámetro será entero
                 }
             )
         ) { backStackEntry ->
@@ -74,22 +74,22 @@ fun AppNavigation() { // Función principal que controla la navegación
 
             CourseDetailScreen(
                 courseId = courseId,
-                // 👉 ENVÍA ese ID a la pantalla Detalle
+                //  ENVÍA ese ID a la pantalla Detalle
 
                 onBack = {
                     navController.popBackStack()
-                    // 👉 REGRESA a Cursos
+                    //  REGRESA a Cursos
                 }
             )
         }
 
         composable(Routes.PROFILE) {
-            // 👉 Pantalla Perfil
+            //  Pantalla Perfil
 
             ProfileScreen(
                 onBack = {
                     navController.popBackStack()
-                    // 👉 REGRESA a Home
+                    //  REGRESA a Home
                 }
             )
         }

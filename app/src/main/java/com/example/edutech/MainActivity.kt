@@ -12,14 +12,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        enableEdgeToEdge() // 👉 Ajusta la app a toda la pantalla
+        enableEdgeToEdge() //  Ajusta la app a toda la pantalla
 
         setContent {
             EduTechAcademyTheme {
 
                 AppNavigation()
-                // 👉 AQUÍ INICIA TODA LA APP
-                // 👉 NavController controla TODAS las pantallas
+                //  AQUÍ INICIA TODA LA APP
+                //  NavController controla TODAS las pantallas
 
             }
         }

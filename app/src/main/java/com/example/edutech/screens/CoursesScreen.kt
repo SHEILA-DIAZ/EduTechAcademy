@@ -37,7 +37,7 @@ fun CoursesScreen(
                         .padding(8.dp)
                         .clickable {
                             onCourseClick(course.id)
-                            // 👉 ENVÍA ID al detalle
+                            //  ENVÍA ID al detalle
                         }
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
